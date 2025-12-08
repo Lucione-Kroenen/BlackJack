@@ -19,10 +19,10 @@ class Baraja {
         const std::vector<Carta>& getCartas() const { return cartas; }
         
         //Metodos    
-        int totalCartasRestantes(); //Ira quitando las cartas de la baraja para que no se repitan.
+        int obtenerTotalCartas() const; //Ira quitando las cartas de la baraja para que no se repitan.
         void mezclarCartas(); //Originalmente tenia un int pero se cambio a un void ya que solamente vamos a cambiar de orden los elementos.
         Carta repartirCarta(); //Llamamos a clase ya que de ahi se le daran los atributos a la carta
-        void crearMano(); 
+        void inicializarBaraja(); 
 };
 
 #endif //BARAJA_H
