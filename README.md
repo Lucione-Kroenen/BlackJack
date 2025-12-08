@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # 📦 C++ Dev Container con Debug en VS Code
 
 Este proyecto contiene un entorno de desarrollo para **C++** usando **Dev Containers** en VS Code, con soporte para compilación, ejecución y depuración (local y remota con `gdbserver`).  
@@ -71,3 +72,6 @@ make google-test       # Ejecuta los test con la librería gtest de google
 ```
 
 El binario generado es `test_runner`.
+=======
+# BlackJack
+>>>>>>> 1a44d159d3a284d2ee55084353d7de7bd8fe3a27
