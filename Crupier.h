@@ -1,7 +1,6 @@
 #ifndef CRUPIER_H
 #define CRUPIER_H
 
-// #include <vector>
 #include "Mano.h"
 #include "Baraja.h"
 
@@ -11,11 +10,29 @@ class Crupier{
         Baraja baraja_de_juego;
 
     public:
-        Carta repartirCartas() const;
-        void tomarCartas();
-        void contarCartas();
+        //Constructor
+        Crupier();
+
+        //Metodos de gestion Baraja
+        void inicializarJuego();
+        Carta repartirCarta();
+
+        //Metodos de juego
+        void tomarCarta(const Carta& carta);
+        void jugarTurnoCrupier();
+        void limpiarMano();
+        
+        int obtenerTotalCartasMano() const;
+        int obtenerTotalCartasBaraja() const;
+        bool estaPasado() const;
+        bool tieneBlackJack() const;
+
+        //Metodos de Visualización
         void mostrarCartas() const;
 
+        //Getters
+        int getValorMano() const;
+        const Mano& getMano() const { return mano_crupier; }
 };
 
 #endif //CRUPIER_H
