@@ -3,7 +3,6 @@
 
 #include <vector>
 #include "Carta.h"
-#include <iostream>
 
 class Mano{
     private:
