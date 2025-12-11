@@ -2,21 +2,32 @@
 #define JUEGO_H
 
 #include <vector>
-#include "Baraja.h"
+#include <string>
 #include "Jugador.h"
 #include "Crupier.h"
 
 class Juego {
     private:
-        Baraja baraja;
         Crupier crupier;
+        bool partida_activa;
         std::vector<Jugador> jugadores;
+        bool preguntarSiContinuar();
+        void verificarEstadoBaraja(); //Para mezclar o inicializar si hay pocas cartas.
     
     public:
-        void inicializarJuego(); //Crea los jugadores, mezclar y repartir
+        Juego(const std::string& nombre_jugador);
+
+        void ejecutarLoopPrincipal(); //Loop contiene rondas
+
+        void iniciarRonda(); //Crea los jugadores, mezclar y repartir
+        void repartirCartasIniciales();
+        void jugarTurnoJugador(Jugador& jugador);
+        void jugarTurnoCrupier();
         void resolverRonda(); //Determinnar el ganador, pagar y cobrar a los jugadores
-        void iniciarRonda();
+        void limpiarRonda();
+
         void mostrarResultados() const;
+        void mostrarApuestasYSaldo() const;
 
 };
 

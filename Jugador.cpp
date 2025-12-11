@@ -2,36 +2,60 @@
 #include <iostream>
 #include <limits>
 
-Jugador::Jugador(const std::string& nj, int saldo_inicial) : nombre_jugador(nj), fichas(saldo_inicial), apuestaActual(0) {}
+Jugador::Jugador(const std::string& nj, int saldo_inicial)
+    : nombre_jugador(nj), fichas(saldo_inicial) {}
 
-std::string Jugador::obtenerNombre() const {
-    return nombre_jugador;
+void Jugador::realizarApuesta(int monto) {
+    if (!Apuesta::esMontoValido(monto, fichas)) {
+        throw std::runtime_error("Apuesta invalida. Fichas insuficientes o monto invalido.");
+    }
+
+    fichas -= monto;
+    apuesta_actual.realizar(monto);
 }
 
-int Jugador::obtenerFichas() const {
-    return fichas;
+void Jugador::resolverVictoria() {
+    int ganancia = apuesta_actual.calcularGananciaVictoria();
+    fichas += ganancia;
+    apuesta_actual.cancelar();
+
+    std::cout << nombre_jugador << " gana " << ganancia << " fichas!" << std::endl;
 }
 
-int Jugador::obtenerApuestaActual() const {
-    return apuesta_actual;
+void Jugador::resolverBlackjack() {
+    int ganancia = apuesta_actual.calcularGananciaBlackjack();
+    fichas += ganancia;
+    apuesta_actual.cancelar();
+
+    std::cout << "BLACKJACK!!! " << nombre_jugador << " gana " << ganancia << " fichas!" << std::endl;
 }
 
-void Jugador::limpiarMano() {
-    mano.limpiarMano();
+void Jugador::resolverEmpate() {
+    int devolucion = apuesta_actual.calcularEmpate();
+    fichas += devolucion;
+    apuesta_actual.cancelar();
+
+    std::cout << "Empate. " << nombre_jugador << " recupera " << devolucion << " fichas." << std::endl;
 }
 
-void Jugador::resetApuesta(){
-    apuesta_actual = 0; 
+void Jugador::resolverPerdida() {
+    apuesta_actual.cancelar();
+
+    std::cout << nombre_jugador << " pierde la apuesta." << std::endl;
 }
 
 void Jugador::tomarCarta(const Carta& carta) {
     mano.agregarCarta(carta);
 }
 
+void Jugador::limpiarMano() {
+    mano.limpiarMano();
+}
+
 void Jugador::mostrarMano() const {
-    std::cout << "\n--- Mano de " << nombre_jugador << " ---" << std::endl;    
-    for (const carta& carta : mano.obtenerCartas()) {
-    std::cout << "  - " << carta.describirCarta() << std::endl;    
+    std::cout << "\n=== Mano de " << nombre_jugador << " ===" << std::endl;    
+    for (const Carta& carta : mano.getCartas()) {
+        std::cout << "  - " << carta.describirCarta() << std::endl;    
     }
     std::cout << "Total: " << mano.obtenerValorTotal() << std::endl;
 }
@@ -40,16 +64,12 @@ bool Jugador::quiereCarta() const {
     char opcion;
     std::cout << nombre_jugador << ", ¿quieres otra carta? (s/n): ";
     if (!(std::cin >> opcion)) {
+        // Limpiar buffer de entrada en caso de entrada inválida
+        std::cin.clear();
+        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+        return false;
+    }
 
-    // Limpiar buffer de entrada en caso de entrada inválida
-    std::cin.clear();
     std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-
-    return false;
-}
-
-std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-
-return (opcion == 's' || opcion == 'S');
-
+    return (opcion == 's' || opcion == 'S');
 }

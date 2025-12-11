@@ -1,43 +1,33 @@
+#include "Juego.h"
 #include <iostream>
 #include <string>
-#include <curl/curl.h>
-#include <nlohmann/json.hpp>
 
-using json = nlohmann::json;
-
-static size_t WriteCallback(void* contents, size_t size, size_t nmemb, void* userp) {
-    size_t totalSize = size * nmemb;
-    std::string* buffer = static_cast<std::string*>(userp);
-    buffer->append(static_cast<char*>(contents), totalSize);
-    return totalSize;
-}
+using namespace std;
 
 int main() {
-    CURL* curl;
-    CURLcode res;
-    std::string response;
+    string nombre;
 
-    curl_global_init(CURL_GLOBAL_DEFAULT);
-    curl = curl_easy_init();
-    if (curl) {
-        curl_easy_setopt(curl, CURLOPT_URL, "https://jsonplaceholder.typicode.com/todos/1");
-        curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, WriteCallback);
-        curl_easy_setopt(curl, CURLOPT_WRITEDATA, &response);
+    cout << "========================================" << endl;
+    cout << "        BIENVENIDO AL BLACKJACK         " << endl;
+    cout << "========================================" << endl;
+    cout << "\nIngresa tu nombre: ";
+    getline(cin, nombre);
 
-        res = curl_easy_perform(curl);
-        if (res != CURLE_OK) {
-            std::cerr << "curl_easy_perform() failed: " << curl_easy_strerror(res) << "\n";
-        }
-
-        curl_easy_cleanup(curl);
+    if (nombre.empty()) {
+        nombre = "Jugador";
     }
-    curl_global_cleanup();
+
+    cout << "\nHola, " << nombre << endl;
+    cout << "\nPresiona ENTER para comenzar...";
+    cin.get();
 
     try {
-        json j = json::parse(response);
-        std::cout << "Title: " << j["title"] << "\n";
-    } catch (const std::exception& e) {
-        std::cerr << "JSON parse error: " << e.what() << "\n";
+        Juego juego(nombre);
+        juego.ejecutarLoopPrincipal();
+    }
+    catch (const exception&e) {
+        cerr << "\nERROR CRITICO " << e.what() << endl;
+        return 1;
     }
 
     return 0;

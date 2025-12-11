@@ -1,6 +1,25 @@
 #include "Crupier.h"
 #include <iostream>
 
+Crupier::Crupier() {}
+
+void Crupier::inicializarJuego() {
+    baraja_de_juego.inicializarBaraja();
+    baraja_de_juego.mezclarCartas();
+}
+
+Carta Crupier::repartirCarta() {
+    return baraja_de_juego.repartirCarta();
+}
+
+void Crupier::tomarCarta(const Carta& carta) {
+    mano_crupier.agregarCarta(carta);
+}
+
+int Crupier::getValorMano() const {
+    return mano_crupier.obtenerValorTotal();
+}
+
 void Crupier::jugarTurnoCrupier() {
     while (getValorMano() < 17 ) {
         Carta nueva_carta = repartirCarta();
@@ -36,6 +55,6 @@ bool Crupier::estaPasado() const {
     return mano_crupier.estaPasado();
 }
 
-bool Crupier::tieneBlackJack() const {
-    return mano_crupier.esBlackJack();
+bool Crupier::tieneBlackjack() const {
+    return mano_crupier.esBlackjack();
 }

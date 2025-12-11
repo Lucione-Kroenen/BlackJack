@@ -25,7 +25,7 @@ class Crupier{
         int obtenerTotalCartasMano() const;
         int obtenerTotalCartasBaraja() const;
         bool estaPasado() const;
-        bool tieneBlackJack() const;
+        bool tieneBlackjack() const;
 
         //Metodos de Visualización
         void mostrarCartas() const;

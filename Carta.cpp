@@ -32,5 +32,24 @@ int Carta::obtenerValorFijo() const {
 }
 
 std::string Carta::describirCarta() const {
-    return rango + " de " + familia_carta;
+    std::string simbolo;
+    
+    if (familia_carta == "Corazones") {
+        simbolo = "♥";
+    } 
+    else if (familia_carta == "Diamantes") {
+        simbolo = "♦";
+    } 
+    else if (familia_carta == "Picas") {
+        simbolo = "♠";
+    } 
+    else if (familia_carta == "Treboles") {
+        simbolo = "♣";
+    }
+    else {
+        //Fallback: si la familia no se reconoce, usar el texto
+        return rango + " de " + familia_carta;
+    }
+    
+    return rango + simbolo;
 }

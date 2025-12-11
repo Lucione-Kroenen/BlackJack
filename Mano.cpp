@@ -27,7 +27,7 @@ bool Mano::estaPasado() const {
     return obtenerValorTotal() > 21;
 }
 
-bool Mano::esBlackJack() const {
+bool Mano::esBlackjack() const {
     return (obtenerValorTotal() == 21) && (cartas.size() == 2);
 }
 
